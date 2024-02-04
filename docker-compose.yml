@@ -1,0 +1,61 @@
+version: "3.7"
+services:
+  app:
+    build:
+      args:
+        user: sammy1
+        uid: 1001
+      context: ./
+      dockerfile: Dockerfile
+    image: travellist
+    container_name: HarinamVideoDept
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - harinamVideoDeptNetwork
+
+  postgres:
+    image: postgres:latest
+    environment:
+      - "POSTGRES_USER=uswe"
+      - "POSTGRES_PASSWORD=password"
+      - "POSTGRES_DB=base"
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgredata:/var/lib/postgresql
+    networks:
+      - harinamVideoDeptNetwork
+
+  postgresTest:
+    image: postgres:latest
+    environment:
+        - "POSTGRES_USER=uswe"
+        - "POSTGRES_PASSWORD=password"
+        - "POSTGRES_DB=baseTest"
+    ports:
+        - 5433:5432
+    volumes:
+        - ./postgredataTest:/var/lib/postgresql
+    networks:
+        - harinamVideoDeptNetwork
+
+  nginx:
+    image: nginx:alpine
+    container_name: HarinamVideoDeptNginx
+    restart: unless-stopped
+    ports:
+      - 8124:80
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d/
+    networks:
+      - harinamVideoDeptNetwork
+
+
+networks:
+  harinamVideoDeptNetwork:
+    driver: bridge
+
