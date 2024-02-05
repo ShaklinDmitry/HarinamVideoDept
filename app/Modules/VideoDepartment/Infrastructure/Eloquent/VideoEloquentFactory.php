@@ -1,7 +1,8 @@
 <?php
 
-namespace Database\Factories;
+namespace App\Modules\VideoDepartment\Infrastructure\Eloquent;
 
+use App\Modules\Pictures\Infrastructure\Eloquent\ImageEloquent;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +10,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class VideoEloquentFactory extends Factory
 {
+
+    protected $model = VideosEloquent::class;
+
     /**
      * Define the model's default state.
      *
@@ -17,7 +21,9 @@ class VideoEloquentFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'guid' => fake()->uuid(),
+            'video_name' => fake()->text(10),
+            'record_date' => fake()->dateTime(),
         ];
     }
 }

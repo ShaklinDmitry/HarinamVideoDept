@@ -15,4 +15,9 @@ class VideosEloquent extends Model
 
     protected $table = 'videos';
 
+    protected static function newFactory()
+    {
+        return VideoEloquentFactory::new();
+    }
+
 }

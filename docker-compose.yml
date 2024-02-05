@@ -21,11 +21,11 @@ services:
     environment:
       - "POSTGRES_USER=uswe"
       - "POSTGRES_PASSWORD=password"
-      - "POSTGRES_DB=base"
+      - "POSTGRES_DB=HarinamVideoDeptBase"
     ports:
       - 5432:5432
     volumes:
-      - ./postgredata:/var/lib/postgresql
+        - ./postgres-data:/var/lib/postgresql/data
     networks:
       - harinamVideoDeptNetwork
 
@@ -34,11 +34,11 @@ services:
     environment:
         - "POSTGRES_USER=uswe"
         - "POSTGRES_PASSWORD=password"
-        - "POSTGRES_DB=baseTest"
+        - "POSTGRES_DB=HarinamVideoDeptBaseTest"
     ports:
         - 5433:5432
     volumes:
-        - ./postgredataTest:/var/lib/postgresql
+        - ./postgres-data-test:/var/lib/postgresql/data
     networks:
         - harinamVideoDeptNetwork
 
