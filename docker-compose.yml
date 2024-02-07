@@ -38,7 +38,7 @@ services:
     ports:
         - 5433:5432
     volumes:
-        - ./postgredataTest:/var/lib/postgresql
+        - ./postgredataTest:/var/lib/postgresqlg
     networks:
         - harinamVideoDeptNetwork
 
