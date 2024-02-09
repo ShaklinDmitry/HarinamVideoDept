@@ -3,9 +3,11 @@
 namespace Tests\Feature;
 
 use App\Modules\VideoDepartment\Application\UseCases\AddVideoCommandInterface;
+use App\Modules\VideoDepartment\Infrastructure\Events\VideoAdded;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class AddVideoCommandTest extends TestCase
@@ -15,11 +17,15 @@ class AddVideoCommandTest extends TestCase
 
     public function test_add_video_command(): void
     {
+        Event::fake();
+
         $videoName = 'testName';
         $recordDate = new \DateTime();
 
         $addVideoCommand = app(AddVideoCommandInterface::class);
         $addVideoCommand->execute($videoName, $recordDate);
+
+        Event::assertDispatched(VideoAdded::class);
 
         $this->assertDatabaseHas(
             'videos',
