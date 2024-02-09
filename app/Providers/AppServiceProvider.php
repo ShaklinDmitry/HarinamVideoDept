@@ -23,13 +23,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->app->bind(VideoRepositoryInterface::class, function (){
-            return new VideoRepository();
-        });
+//        $this->app->bind(VideoRepositoryInterface::class, function (){
+//            return new VideoRepository();
+//        });
+//
+//        $this->app->bind(AddVideoCommandInterface::class, function (){
+//            $videoRepository = app(VideoRepositoryInterface::class);
+//            return new AddVideoCommand($videoRepository);
+//        });
 
-        $this->app->bind(AddVideoCommandInterface::class, function (){
-            $videoRepository = app(VideoRepositoryInterface::class);
-            return new AddVideoCommand($videoRepository);
-        });
+
     }
 }
