@@ -168,7 +168,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-     //   \App\Modules\VideoDepartment\Infrastructure\ServiceProviders\VideoDepartmentServiceProvider::class
+        \App\Modules\VideoDepartment\Infrastructure\ServiceProviders\VideoDepartmentServiceProvider::class
     ])->toArray(),
 
     /*
