@@ -19,3 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/video', [\App\Modules\VideoDepartment\Infrastructure\Controllers\VideoController::class, 'addVideo']);
+
+Route::post('/test', function (){
+    \Illuminate\Support\Facades\Mail::to('shaklin.ru@mail.ru')->send(new \App\Modules\MailSender\Infrastructure\Mailable\EmailSend());
+});
