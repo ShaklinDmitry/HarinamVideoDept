@@ -21,9 +21,10 @@ class AddVideoCommandTest extends TestCase
 
         $videoName = 'testName';
         $recordDate = new \DateTime();
+        $cameraManName = 'testname';
 
         $addVideoCommand = app(AddVideoCommandInterface::class);
-        $addVideoCommand->execute($videoName, $recordDate);
+        $addVideoCommand->execute($videoName, $recordDate, $cameraManName);
 
         Event::assertDispatched(VideoAdded::class);
 
@@ -34,6 +35,13 @@ class AddVideoCommandTest extends TestCase
                 'record_date' => $recordDate
             ]
         );
+
+        $this->assertDatabaseHas(
+            'cameraman',
+            [
+                'name' => $cameraManName
+            ]
+        );
     }
 
 
@@ -42,7 +50,8 @@ class AddVideoCommandTest extends TestCase
         $response = $this->post('/api/video',
             [
                 'videoName' => 'Harinam Jan 9st',
-                'recordDate' => '2024-01-12 12:11:00'
+                'recordDate' => '2024-01-12 12:11:00',
+                'cameramanName' => 'testName'
             ],
             ["Accept" => "application/json"]);
 

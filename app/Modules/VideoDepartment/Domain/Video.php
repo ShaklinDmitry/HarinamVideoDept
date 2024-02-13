@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 class Video
 {
 
+    private Cameraman $cameraman;
+
     /**
      * @param string $videoName
      * @param \DateTime $recordDate
@@ -43,5 +45,23 @@ class Video
     public function getGuid(): ?string
     {
         return $this->guid;
+    }
+
+    /**
+     * @param string $name
+     * @return Cameraman
+     */
+    public function addCameraMan(string $name): Cameraman
+    {
+        $this->cameraman = new Cameraman($name);
+        return $this->cameraman;
+    }
+
+    /**
+     * @return Cameraman
+     */
+    public function getCameraman(): Cameraman
+    {
+        return $this->cameraman;
     }
 }

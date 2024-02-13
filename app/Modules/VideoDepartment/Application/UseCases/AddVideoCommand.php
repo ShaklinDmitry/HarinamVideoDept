@@ -22,11 +22,13 @@ class AddVideoCommand implements AddVideoCommandInterface
      * @param \DateTime $recordDate
      * @return VideoDTO
      */
-    public function execute(string $videoName, \DateTime $recordDate): VideoDTO
+    public function execute(string $videoName, \DateTime $recordDate, string $cameraManName): VideoDTO
     {
         $video = new Video($videoName, $recordDate);
 
-        $video = $this->videoRepository->addVideo($video->getGuid(), $video->getVideoName(), $video->getRecordDate());
+        $cameraMan = $video->addCameraMan($cameraManName);
+
+        $this->videoRepository->addVideo($video);
 
         $this->videoAddedFireEvent->execute($video->getVideoName(), $video->getRecordDate());
 

@@ -33,7 +33,7 @@ class VideoController extends Controller
 
             $recordDate = DateTime::createFromFormat('Y-m-d H:i:s', $request->recordDate);
 
-            $videoDTO = $this->addVideoCommand->execute($request->videoName, $recordDate);
+            $videoDTO = $this->addVideoCommand->execute($request->videoName, $recordDate, $request->cameramanName);
 
             $responseData = [
                 "data" => [

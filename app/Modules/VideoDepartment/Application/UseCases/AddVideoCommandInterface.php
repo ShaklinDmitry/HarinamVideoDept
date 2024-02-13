@@ -9,7 +9,8 @@ interface AddVideoCommandInterface
     /**
      * @param string $videoName
      * @param \DateTime $recordDate
+     * @param string $cameraManName
      * @return VideoDTO
      */
-    public function execute(string $videoName, \DateTime $recordDate): VideoDTO;
+    public function execute(string $videoName, \DateTime $recordDate, string $cameraManName): VideoDTO;
 }
