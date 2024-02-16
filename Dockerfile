@@ -29,7 +29,8 @@ RUN apt-get update \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
-RUN docker-php-ext-install mbstring exif pcntl bcmath gd sockets
+
+RUN docker-php-ext-install mbstring exif pcntl bcmath gd sockets zip
 RUN docker-php-ext-install pgsql pdo_pgsql
 
 # Get latest Composer

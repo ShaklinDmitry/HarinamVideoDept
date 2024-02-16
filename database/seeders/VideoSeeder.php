@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Modules\VideoDepartment\Infrastructure\Eloquent\CameramanEloquent;
 use App\Modules\VideoDepartment\Infrastructure\Eloquent\VideosEloquent;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,6 +14,26 @@ class VideoSeeder extends Seeder
      */
     public function run(): void
     {
-        VideosEloquent::factory(10000)->create();
+        $video = [];
+        $cameraman = [];
+        for($i = 0; $i < 1000; $i++){
+
+            $video[$i]['cameraman_guid'] = fake()->uuid();
+
+            $cameraman[$i]['guid'] = $video[$i]['cameraman_guid'];
+
+            CameramanEloquent::factory()->create([
+                'guid' => $cameraman[$i]['guid'],
+            ]);
+
+            VideosEloquent::factory()->create(
+                [
+                    'cameraman_guid' => $video[$i]['cameraman_guid']
+                ]
+            );
+
+        }
+
+
     }
 }

@@ -40,4 +40,22 @@ class VideoRepository implements VideoRepositoryInterface
         });
 
     }
+
+    /**
+     * @param \DateTime $startRecordDate
+     * @param \DateTime $endRecordDate
+     * @return array|mixed
+     */
+    public function getVideo(\DateTime $startRecordDate, \DateTime $endRecordDate)
+    {
+        $result = DB::select(
+            "SELECT  v.guid, v.video_name, v.recordDate as recordDate,
+                            c_m.guid, c_m.name
+                    FROM video v
+                    JOIN cameraman c_m ON v.cameraman_guid = c_m.guid
+                    WHERE recordDate BETWEEN :startRecordDate AND :endRecordDate",
+            ['startRecordDate' => $startRecordDate, 'endRecordDate' => $endRecordDate]);
+
+        return $result;
+    }
 }

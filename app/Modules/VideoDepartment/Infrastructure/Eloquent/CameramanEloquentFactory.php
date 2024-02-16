@@ -20,7 +20,8 @@ class CameramanEloquentFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'guid' => fake()->uuid(),
+            'name' => fake()->text(10),
         ];
     }
 }
