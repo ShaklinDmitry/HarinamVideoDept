@@ -4,10 +4,12 @@ namespace App\Modules\VideoDepartment\Infrastructure\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Modules\VideoDepartment\Application\UseCases\AddVideoCommandInterface;
+use App\Modules\VideoDepartment\Application\UseCases\GetVideoStatisticsCommandInterface;
 use App\Modules\VideoDepartment\Infrastructure\Requests\AddVideoRequest;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class VideoController extends Controller
 {
@@ -15,7 +17,8 @@ class VideoController extends Controller
     /**
      * @param AddVideoCommandInterface $addVideoCommand
      */
-    public function __construct(private AddVideoCommandInterface $addVideoCommand)
+    public function __construct(private AddVideoCommandInterface           $addVideoCommand,
+                                private GetVideoStatisticsCommandInterface $getVideoStatisticsCommand)
     {
     }
 
@@ -25,9 +28,11 @@ class VideoController extends Controller
      */
     public function addVideo(AddVideoRequest $request)
     {
-        try {
+        try
+        {
 
-            if (isset($request->validator) && $request->validator->fails()) {
+            if (isset($request->validator) && $request->validator->fails())
+            {
                 return response()->json($request->validator->messages(), 400);
             }
 
@@ -47,7 +52,8 @@ class VideoController extends Controller
 
             return response()->json($responseData, 201);
 
-        } catch (\Exception $exception) {
+        } catch (\Exception $exception)
+        {
             $responseData = [
                 "error" => [
                     "error" => $exception->getMessage()
@@ -57,6 +63,21 @@ class VideoController extends Controller
             return response()->json($responseData);
         }
 
+    }
+
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function getStatistics(Request $request)
+    {
+        $startRecordDate = DateTime::createFromFormat('Y-m-d H:i:s', $request->startRecordDate);
+        $endRecordDate = DateTime::createFromFormat('Y-m-d H:i:s', $request->endRecordDate);
+
+        $file = $this->getVideoStatisticsCommand->execute($startRecordDate, $endRecordDate);
+
+        return $file;
     }
 
 }

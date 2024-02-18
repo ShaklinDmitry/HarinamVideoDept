@@ -44,16 +44,16 @@ class VideoRepository implements VideoRepositoryInterface
     /**
      * @param \DateTime $startRecordDate
      * @param \DateTime $endRecordDate
-     * @return array|mixed
+     * @return array
      */
-    public function getVideo(\DateTime $startRecordDate, \DateTime $endRecordDate)
+    public function getVideo(\DateTime $startRecordDate, \DateTime $endRecordDate): array
     {
         $result = DB::select(
-            "SELECT  v.guid, v.video_name, v.recordDate as recordDate,
+            "SELECT  v.guid, v.video_name, v.record_date as record_date,
                             c_m.guid, c_m.name
-                    FROM video v
+                    FROM videos v
                     JOIN cameraman c_m ON v.cameraman_guid = c_m.guid
-                    WHERE recordDate BETWEEN :startRecordDate AND :endRecordDate",
+                    WHERE record_date BETWEEN :startRecordDate AND :endRecordDate",
             ['startRecordDate' => $startRecordDate, 'endRecordDate' => $endRecordDate]);
 
         return $result;

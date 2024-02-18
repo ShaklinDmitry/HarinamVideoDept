@@ -66,8 +66,6 @@ class AddVideoCommandTest extends TestCase
                 ]
             ]
         );
-
-
     }
 
 }

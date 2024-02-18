@@ -25,6 +25,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/video', [\App\Modules\VideoDepartment\Infrastructure\Controllers\VideoController::class, 'addVideo']);
 
+Route::get('/statistics', [\App\Modules\VideoDepartment\Infrastructure\Controllers\VideoController::class, 'getStatistics']);
+
+Route::get('/test/{new1}/teststs/{new2}', [\App\Modules\VideoDepartment\Infrastructure\Controllers\VideoController::class, 'test']);
+
 Route::get('/test', function (){
 
     $spreadsheet = new Spreadsheet();

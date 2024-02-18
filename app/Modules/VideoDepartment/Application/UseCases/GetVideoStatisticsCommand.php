@@ -2,28 +2,31 @@
 
 namespace App\Modules\VideoDepartment\Application\UseCases;
 
+use App\Modules\VideoDepartment\Domain\StatisticsInterface;
 use App\Modules\VideoDepartment\Domain\VideoRepositoryInterface;
 
 class GetVideoStatisticsCommand implements GetVideoStatisticsCommandInterface
 {
 
+    /**
+     * @param VideoRepositoryInterface $videoRepository
+     * @param StatisticsInterface $statistics
+     */
     public function __construct(private VideoRepositoryInterface $videoRepository,
-                                private StatisticsInterface $statisticsInfrastructure)
+                                private StatisticsInterface      $statistics)
     {
     }
 
     /**
-     * @param \DateTime $startDate
-     * @param \DateTime $endDate
+     * @param \DateTime $startRecordDate
+     * @param \DateTime $endRecordDate
      * @return mixed|void
      */
-    public function execute(\DateTime $startDate, \DateTime $endDate)
+    public function execute(\DateTime $startRecordDate, \DateTime $endRecordDate)
     {
-        $video = $this->videoRepository->getVideo($startDate, $endDate);
-//
-//        через интерфейс получить сервис для работы с excel и csv
+        $video = $this->videoRepository->getVideo($startRecordDate, $endRecordDate);
 
-        $file = $this->statisticsInfrastructure->createFile($video);
+        $file = $this->statistics->createFile($video);
 
         return $file;
     }
