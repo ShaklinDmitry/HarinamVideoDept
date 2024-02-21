@@ -6,10 +6,6 @@ use App\Modules\MailSender\Application\UseCases\SendEmailCommand;
 use App\Modules\MailSender\Application\UseCases\SendEmailCommandInterface;
 use App\Modules\MailSender\Domain\EmailSenderInterface;
 use App\Modules\MailSender\Infrastructure\EmailSender\EmailSender;
-use App\Modules\VideoDepartment\Application\UseCases\AddVideoCommand;
-use App\Modules\VideoDepartment\Application\UseCases\AddVideoCommandInterface;
-use App\Modules\VideoDepartment\Domain\VideoRepositoryInterface;
-use App\Modules\VideoDepartment\Infrastructure\Repositories\VideoRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

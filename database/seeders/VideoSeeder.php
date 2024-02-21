@@ -16,7 +16,7 @@ class VideoSeeder extends Seeder
     {
         $video = [];
         $cameraman = [];
-        for($i = 0; $i < 1000; $i++){
+        for($i = 0; $i < 10000; $i++){
 
             $video[$i]['cameraman_guid'] = fake()->uuid();
 

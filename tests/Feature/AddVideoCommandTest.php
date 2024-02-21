@@ -2,11 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Modules\VideoDepartment\Application\UseCases\AddVideoCommandInterface;
+use App\Modules\VideoDepartment\Application\UseCases\AddVideo\AddVideoCommandInterface;
 use App\Modules\VideoDepartment\Infrastructure\Events\VideoAdded;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 

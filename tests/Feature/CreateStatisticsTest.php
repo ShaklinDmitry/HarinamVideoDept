@@ -2,9 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Modules\VideoDepartment\Application\UseCases\GetVideoStatisticsCommandInterface;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Modules\VideoDepartment\Application\UseCases\GetVideoStatistics\GetVideoStatisticsCommandInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Tests\TestCase;
 

@@ -3,13 +3,11 @@
 namespace App\Modules\VideoDepartment\Infrastructure\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Modules\VideoDepartment\Application\UseCases\AddVideoCommandInterface;
-use App\Modules\VideoDepartment\Application\UseCases\GetVideoStatisticsCommandInterface;
+use App\Modules\VideoDepartment\Application\UseCases\AddVideo\AddVideoCommandInterface;
+use App\Modules\VideoDepartment\Application\UseCases\GetVideoStatistics\GetVideoStatisticsCommandInterface;
 use App\Modules\VideoDepartment\Infrastructure\Requests\AddVideoRequest;
 use DateTime;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class VideoController extends Controller
 {

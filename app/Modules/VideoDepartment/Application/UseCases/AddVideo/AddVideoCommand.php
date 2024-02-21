@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Modules\VideoDepartment\Application\UseCases;
+namespace App\Modules\VideoDepartment\Application\UseCases\AddVideo;
 
 use App\Modules\VideoDepartment\Application\DTOs\VideoDTO;
-use App\Modules\VideoDepartment\Domain\VideoAddedFireEventInterface;
 use App\Modules\VideoDepartment\Domain\Video;
+use App\Modules\VideoDepartment\Domain\VideoAddedFireEventInterface;
 use App\Modules\VideoDepartment\Domain\VideoRepositoryInterface;
 
 class AddVideoCommand implements AddVideoCommandInterface

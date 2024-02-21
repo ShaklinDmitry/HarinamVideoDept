@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\VideoDepartment\Application\UseCases;
+namespace App\Modules\VideoDepartment\Application\UseCases\GetVideoStatistics;
 
 use App\Modules\VideoDepartment\Domain\StatisticsInterface;
 use App\Modules\VideoDepartment\Domain\VideoRepositoryInterface;

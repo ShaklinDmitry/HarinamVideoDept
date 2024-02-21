@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\VideoDepartment\Application\UseCases;
+namespace App\Modules\VideoDepartment\Application\UseCases\AddVideo;
 
 use App\Modules\VideoDepartment\Application\DTOs\VideoDTO;
 

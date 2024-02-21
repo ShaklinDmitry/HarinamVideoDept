@@ -2,10 +2,10 @@
 
 namespace App\Modules\VideoDepartment\Infrastructure\ServiceProviders;
 
-use App\Modules\VideoDepartment\Application\UseCases\AddVideoCommand;
-use App\Modules\VideoDepartment\Application\UseCases\AddVideoCommandInterface;
-use App\Modules\VideoDepartment\Application\UseCases\GetVideoStatisticsCommand;
-use App\Modules\VideoDepartment\Application\UseCases\GetVideoStatisticsCommandInterface;
+use App\Modules\VideoDepartment\Application\UseCases\AddVideo\AddVideoCommand;
+use App\Modules\VideoDepartment\Application\UseCases\AddVideo\AddVideoCommandInterface;
+use App\Modules\VideoDepartment\Application\UseCases\GetVideoStatistics\GetVideoStatisticsCommand;
+use App\Modules\VideoDepartment\Application\UseCases\GetVideoStatistics\GetVideoStatisticsCommandInterface;
 use App\Modules\VideoDepartment\Domain\StatisticsInterface;
 use App\Modules\VideoDepartment\Domain\VideoAddedFireEventInterface;
 use App\Modules\VideoDepartment\Domain\VideoRepositoryInterface;
