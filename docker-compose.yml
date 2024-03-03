@@ -13,6 +13,7 @@ services:
     working_dir: /var/www/
     volumes:
       - ./:/var/www
+      - ./laravelWorkers:/etc/supervisor/conf.d/
     networks:
       - harinamVideoDeptNetwork
 

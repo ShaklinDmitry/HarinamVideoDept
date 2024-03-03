@@ -6,6 +6,8 @@ use App\Modules\VideoDepartment\Application\UseCases\AddVideo\AddVideoCommand;
 use App\Modules\VideoDepartment\Application\UseCases\AddVideo\AddVideoCommandInterface;
 use App\Modules\VideoDepartment\Application\UseCases\GetVideoStatistics\GetVideoStatisticsCommand;
 use App\Modules\VideoDepartment\Application\UseCases\GetVideoStatistics\GetVideoStatisticsCommandInterface;
+use App\Modules\VideoDepartment\Application\UseCases\SaveVideoFromFile\SaveVideoFromFileCommand;
+use App\Modules\VideoDepartment\Application\UseCases\SaveVideoFromFile\SaveVideoFromFileCommandInterface;
 use App\Modules\VideoDepartment\Domain\StatisticsInterface;
 use App\Modules\VideoDepartment\Domain\VideoAddedFireEventInterface;
 use App\Modules\VideoDepartment\Domain\VideoRepositoryInterface;
@@ -53,6 +55,9 @@ class VideoDepartmentServiceProvider extends ServiceProvider
                                                 app(StatisticsInterface::class));
         });
 
+        $this->app->bind(SaveVideoFromFileCommandInterface::class, function (){
+            return new SaveVideoFromFileCommand(app(StatisticsInterface::class));
+        });
 
     }
 }

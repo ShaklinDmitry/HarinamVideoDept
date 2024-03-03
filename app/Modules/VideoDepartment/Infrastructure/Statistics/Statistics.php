@@ -3,38 +3,70 @@
 namespace App\Modules\VideoDepartment\Infrastructure\Statistics;
 
 use App\Modules\VideoDepartment\Domain\StatisticsInterface;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use App\Modules\VideoDepartment\Domain\VideoRepositoryInterface;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Spatie\SimpleExcel\SimpleExcelReader;
+use Spatie\SimpleExcel\SimpleExcelWriter;
 
 class Statistics implements StatisticsInterface
 {
+
+    const FILE_NAME = 'statistics.xlsx';
+    const STATISTICS_FOLDER_PATH = 'statistics/';
+
     /**
      * @param array $video
-     * @return mixed|\Symfony\Component\HttpFoundation\BinaryFileResponse
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @return string
+     * @throws \Exception
      */
-    public function createFile(array $video)
+    public function createFile(array $video): string
     {
-        $spreadsheet = new Spreadsheet();
+        $statisticsFolderName = Str::random(5);
+        $fileTempFolderPath = storage_path('app/') . self::STATISTICS_FOLDER_PATH . $statisticsFolderName;
+        if (File::makeDirectory($fileTempFolderPath, 0777, true))
+        {
+            $writer = SimpleExcelWriter::create($fileTempFolderPath . '/' . self::FILE_NAME);
 
-//        $arrayData = [
-//            [NULL, 2010, 2011, 2012],
-//            ['Q1',   12,   15,   21],
-//            ['Q2',   56,   73,   86],
-//            ['Q3',   52,   61,   69],
-//            ['Q4',   30,   32,    0],
-//        ];
+            if (isset($video[0]))
+            {
+                $keys = array_keys($video[0]);
+            }
 
-        $spreadsheet->getActiveSheet()
-            ->fromArray(
-                $video,  // The data to set
-                NULL,        // Array values with this value will not be set
-                'A1'         // Top left coordinate of the worksheet range where
-            );
+            $writer->addHeader($keys);
 
-        $writer = new Xlsx($spreadsheet);
-        $writer->save($path = storage_path('videoStatistics.xlsx'));
+            for ($i = 0; $i < count($video); $i++)
+            {
+                $writer->addRow($video[$i]);
 
-        return response()->download($path)->deleteFileAfterSend();
+                if ($i % 1000 === 0)
+                {
+                    flush(); // Flush the buffer every 1000 rows
+                }
+            }
+
+            return 'statistics/'. $statisticsFolderName . '/' . self::FILE_NAME;
+
+        } else
+        {
+            throw new \Exception('Folder for statistics file not created.');
+        }
+
+    }
+
+
+    public function readFile(string $fileName)
+    {
+        $rows = SimpleExcelReader::create(storage_path('app/statistics/' . $fileName))->getRows();
+
+        $videoRepository = app(VideoRepositoryInterface::class);
+
+        $rows->each(function (array $rowProperties) {
+            dd($rowProperties);
+            //   $video = new Video();
+
+            //   $videoRepository->addVideo();
+        });
     }
 }

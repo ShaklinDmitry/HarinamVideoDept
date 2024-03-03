@@ -9,4 +9,11 @@ interface StatisticsInterface
      * @return mixed
      */
     public function createFile(array $video);
+
+
+    /**
+     * @param string $fileName
+     * @return mixed
+     */
+    public function readFile(string $fileName);
 }

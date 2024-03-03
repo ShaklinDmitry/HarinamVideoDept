@@ -5,18 +5,24 @@ namespace App\Modules\VideoDepartment\Infrastructure\Controllers;
 use App\Http\Controllers\Controller;
 use App\Modules\VideoDepartment\Application\UseCases\AddVideo\AddVideoCommandInterface;
 use App\Modules\VideoDepartment\Application\UseCases\GetVideoStatistics\GetVideoStatisticsCommandInterface;
+use App\Modules\VideoDepartment\Application\UseCases\SaveVideoFromFile\SaveVideoFromFileCommandInterface;
 use App\Modules\VideoDepartment\Infrastructure\Requests\AddVideoRequest;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Spatie\SimpleExcel\SimpleExcelReader;
 
 class VideoController extends Controller
 {
 
     /**
      * @param AddVideoCommandInterface $addVideoCommand
+     * @param GetVideoStatisticsCommandInterface $getVideoStatisticsCommand
+     * @param SaveVideoFromFileCommandInterface $saveVideoFromFileCommand
      */
     public function __construct(private AddVideoCommandInterface           $addVideoCommand,
-                                private GetVideoStatisticsCommandInterface $getVideoStatisticsCommand)
+                                private GetVideoStatisticsCommandInterface $getVideoStatisticsCommand,
+                                private SaveVideoFromFileCommandInterface  $saveVideoFromFileCommand)
     {
     }
 
@@ -70,12 +76,38 @@ class VideoController extends Controller
      */
     public function getStatistics(Request $request)
     {
-        $startRecordDate = DateTime::createFromFormat('Y-m-d H:i:s', $request->startRecordDate);
-        $endRecordDate = DateTime::createFromFormat('Y-m-d H:i:s', $request->endRecordDate);
+        try
+        {
+            $startRecordDate = DateTime::createFromFormat('Y-m-d H:i:s', $request->startRecordDate);
+            $endRecordDate = DateTime::createFromFormat('Y-m-d H:i:s', $request->endRecordDate);
 
-        $file = $this->getVideoStatisticsCommand->execute($startRecordDate, $endRecordDate);
+            $fileAssetPath = $this->getVideoStatisticsCommand->execute($startRecordDate, $endRecordDate);
 
-        return $file;
+            return asset($fileAssetPath);
+        } catch (\Exception $exception)
+        {
+            return response()->json(['status' => 'error',
+                'message' => $exception->getMessage()]);
+        }
+
+    }
+
+    /**
+     * @param Request $request
+     * @return void
+     */
+    public function saveVideoFromFile(Request $request)
+    {
+
+        $file = $request->file;
+
+        $fileName = time() . $file->getClientOriginalName();
+        $filePath = Storage::putFileAs(
+            "statistics", $file, $fileName
+        );
+
+        $result = $this->saveVideoFromFileCommand->execute($fileName);
+
     }
 
 }

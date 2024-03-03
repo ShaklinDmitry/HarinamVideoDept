@@ -15,7 +15,7 @@ class VideoRepository implements VideoRepositoryInterface
      * @param Video $video
      * @return mixed|void
      */
-    public function addVideo(Video $video)
+    public function addVideo(Video $video): void
     {
 
         DB::transaction(function () use ($video) {
