@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/video', [\App\Modules\VideoDepartment\Infrastructure\Controllers\VideoController::class, 'addVideo']);
+Route::get('/video', [\App\Modules\VideoDepartment\Infrastructure\Controllers\VideoController::class, 'getVideoByChunks']);
 
 Route::get('/statistics', [\App\Modules\VideoDepartment\Infrastructure\Controllers\VideoController::class, 'getStatistics']);
 

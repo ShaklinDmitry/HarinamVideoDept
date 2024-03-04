@@ -66,9 +66,32 @@ class VideoRepository implements VideoRepositoryInterface
             ->get();
 
 
-
         $resultArray = json_decode(json_encode($result), true);
 
         return $resultArray;
+    }
+
+    /**
+     * @param string $guid
+     * @param \DateTime $startRecordDate
+     * @param int $chunkLength
+     * @return array
+     */
+    public function getVideosByChunks(string $guid, \DateTime $startRecordDate, int $chunkLength): array
+    {
+
+        $video = DB::select(
+            "SELECT  v.guid as video_guid, v.video_name, v.record_date as record_date,
+                            c_m.guid as cameraman_guid, c_m.name as cameraman_name
+                    FROM videos v
+                    JOIN cameraman c_m ON v.cameraman_guid = c_m.guid
+                    WHERE (record_date,v.guid) >= (:startRecordDate, :guid)
+                    ORDER BY record_date
+                    LIMIT :chunkLength",
+            ['startRecordDate' => $startRecordDate, 'guid' => $guid, 'chunkLength' => $chunkLength]);
+
+        $videoArray = json_decode(json_encode($video), true);
+
+        return $videoArray;
     }
 }

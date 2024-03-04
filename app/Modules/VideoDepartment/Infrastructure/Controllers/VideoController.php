@@ -4,9 +4,11 @@ namespace App\Modules\VideoDepartment\Infrastructure\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Modules\VideoDepartment\Application\UseCases\AddVideo\AddVideoCommandInterface;
+use App\Modules\VideoDepartment\Application\UseCases\GetVideo\GetVideoCommandInterface;
 use App\Modules\VideoDepartment\Application\UseCases\GetVideoStatistics\GetVideoStatisticsCommandInterface;
 use App\Modules\VideoDepartment\Application\UseCases\SaveVideoFromFile\SaveVideoFromFileCommandInterface;
 use App\Modules\VideoDepartment\Infrastructure\Requests\AddVideoRequest;
+use App\Modules\VideoDepartment\Infrastructure\Requests\GetVideoRequest;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -19,10 +21,12 @@ class VideoController extends Controller
      * @param AddVideoCommandInterface $addVideoCommand
      * @param GetVideoStatisticsCommandInterface $getVideoStatisticsCommand
      * @param SaveVideoFromFileCommandInterface $saveVideoFromFileCommand
+     * @param GetVideoCommandInterface $getVideoCommand
      */
     public function __construct(private AddVideoCommandInterface           $addVideoCommand,
                                 private GetVideoStatisticsCommandInterface $getVideoStatisticsCommand,
-                                private SaveVideoFromFileCommandInterface  $saveVideoFromFileCommand)
+                                private SaveVideoFromFileCommandInterface  $saveVideoFromFileCommand,
+                                private GetVideoCommandInterface           $getVideoCommand)
     {
     }
 
@@ -30,7 +34,8 @@ class VideoController extends Controller
      * @param AddVideoRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function addVideo(AddVideoRequest $request)
+    public
+    function addVideo(AddVideoRequest $request)
     {
         try
         {
@@ -69,6 +74,24 @@ class VideoController extends Controller
 
     }
 
+    /**
+     * @param GetVideoRequest $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+    public function getVideoByChunks(GetVideoRequest $request)
+    {
+
+        if (isset($request->validator) && $request->validator->fails())
+        {
+            return response()->json($request->validator->messages(), 400);
+        }
+
+        $startRecordDate = DateTime::createFromFormat('Y-m-d H:i:s', $request->startRecordDate);
+
+        $video = $this->getVideoCommand->execute($request->guid, $startRecordDate, $request->chunkLength);
+
+        return response()->json($video, 200);
+    }
 
     /**
      * @param Request $request
